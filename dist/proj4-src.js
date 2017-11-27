@@ -6315,6 +6315,88 @@
 	  names: names$28
 	};
 
+	function init$28() {
+
+	  var phits = 0.0;
+	  var gamma = 0.0;
+
+	  if (this.lat_ts) {
+	    phits = Math.abs(this.lat_ts);
+	    if (phits >= HALF_PI) {
+	        return null;
+	    }
+	  }
+
+	  if (this.gamma) {
+	    gamma = this.gamma;
+	  }
+	  this.sinrot = Math.sin(gamma);
+	  this.cosrot = Math.cos(gamma);
+	          
+	  if (this.es) {
+	    if (this.lat_ts) {
+	        this.k0 = msfnz(this.es, Math.sin(phits), Math.code(phits));
+	    }
+	  } else {
+	      if (this.lat_ts) {
+	        this.k0 = Math.cos(phits);
+	      }
+	  }
+	}
+	/* Mercator forward equations--mapping lat,long to x,y
+	  --------------------------------------------------*/
+
+	function forward$27(p) {
+	  var u, v;
+
+	  // convert to radians
+	  if (Math.abs(Math.abs(p.y) - HALF_PI) <= EPSLN) {
+	    return null;
+	  }
+	  
+	  u = this.k0 * p.x;
+	  if (this.es) {
+	    v = -1 * this.k0 * Math.log(tsfnz(this.es, p.y, Math.sin(p.y)));
+	  } 
+	  else {
+	    v = this.k0 * Math.log(Math.tan(FORTPI + 0.5 * p.y ));
+	  }
+
+	  p.x = u * this.cosrot - v * this.sinrot;
+	  p.y = v * this.cosrot + u * this.sinrot;
+	  return p;
+	  
+	}
+
+	/* Mercator inverse equations--mapping x,y to lat/long
+	  --------------------------------------------------*/
+	function inverse$27(p) {
+
+	  var u, v;
+
+	  u = p.x * this.cosrot + p.y * this.sinrot;
+	  v = p.y * this.sinrot - p.x * this.sinrot;
+
+	    if (this.es) {
+	        if ((p.y = phi2z(this.e, Math.exp(-v/this.k0)) === -9999 )) {
+	            return null;
+	        }
+	    }
+	    else {
+	        p.y = HALF_PI - 2 * Math.atan(Math.exp(-v / this.k0));
+	    }
+	    p.x = u /this.k0;
+	    return p;
+	}
+
+	var names$29 = ["Skew Mercator", "Skew Mercator", "SkMercator", "SkMercator_Auxiliary_Sphere", "skmerc"];
+	var skmerc = {
+	  init: init$28,
+	  forward: forward$27,
+	  inverse: inverse$27,
+	  names: names$29
+	};
+
 	var includedProjections = function(proj4){
 	  proj4.Proj.projections.add(tmerc);
 	  proj4.Proj.projections.add(etmerc);

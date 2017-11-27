@@ -26,7 +26,8 @@ var projs = [
   'vandg',
   'aeqd',
   'ortho',
-  'qsc'
+  'qsc',
+  'skmerc'
 ];
 module.exports = function(grunt) {
   grunt.initConfig({
@@ -34,7 +35,7 @@ module.exports = function(grunt) {
     connect: {
       server: {
         options: {
-          port: process.env.PORT || 8080,
+          port: process.env.PORT || 9090,
           base: '.'
         }
       }
@@ -44,8 +45,8 @@ module.exports = function(grunt) {
         options: {
           reporter: "dot",
           urls: [ //my ide requries process.env.IP and PORT
-            "http://" + (process.env.IP || "127.0.0.1") + ":" + (process.env.PORT || "8080") + "/test/amd.html",
-            "http://" + (process.env.IP || "127.0.0.1") + ":" + (process.env.PORT || "8080") + "/test/opt.html"
+            "http://" + (process.env.IP || "127.0.0.1") + ":" + (process.env.PORT || "9090") + "/test/amd.html",
+            "http://" + (process.env.IP || "127.0.0.1") + ":" + (process.env.PORT || "9090") + "/test/opt.html"
           ]
         }
       }
