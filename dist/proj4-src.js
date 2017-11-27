@@ -6341,6 +6341,7 @@
 	  proj4.Proj.projections.add(aeqd);
 	  proj4.Proj.projections.add(ortho);
 	  proj4.Proj.projections.add(qsc);
+	  proj4.Proj.projections.add(skmerc);
 	};
 
 	proj4$1.defaultDatum = 'WGS84'; //default datum
