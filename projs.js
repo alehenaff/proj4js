@@ -23,8 +23,6 @@ import vandg from './lib/projections/vandg';
 import aeqd from './lib/projections/aeqd';
 import ortho from './lib/projections/ortho';
 import qsc from './lib/projections/qsc';
-import skmerc from './lib/projections/skmerc';
-
 export default function(proj4){
   proj4.Proj.projections.add(tmerc);
   proj4.Proj.projections.add(etmerc);
@@ -51,5 +49,4 @@ export default function(proj4){
   proj4.Proj.projections.add(aeqd);
   proj4.Proj.projections.add(ortho);
   proj4.Proj.projections.add(qsc);
-  proj4.Proj.projections.add(skmerc);
 }
